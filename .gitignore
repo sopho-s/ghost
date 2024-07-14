@@ -2,3 +2,4 @@ test.txt
 go.mod
 ghost
 .vscode
+*.exe
