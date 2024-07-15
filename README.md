@@ -7,12 +7,14 @@ Ghost is a software made to hide files that would normally be flagged as suspici
 ## Linux
 
 ```shell
-./ghost <OPTIONS> -in <INPUT FILE> -out <OUTPUTFILE>
+./ghost <OPTIONS> -in <INPUT FILE>
 ```
 
 # Options
 
-- -r: Revive, turns the ghosted file back to its original form
+- -r: Revive, turns the ghosted file back to its original form (spooky)
+- -f: Foil, makes a foil ghost, these ghosts have wrappers that do not require ghost to unwrap, they will simply unwrap themselves up execution, but will need a second execution to then run the unwrapped executable
+- -ct: Crypt type, decides the method that ghost will use to hide the file
 
 # To add
 
