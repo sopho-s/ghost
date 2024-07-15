@@ -100,7 +100,12 @@ func main() {
 			arr = arr[1:]
 			arr = arr[:len(arr)-1]
 			arr = strings.Replace(arr, " ", ",", -1)
-			text := "package main\nimport (\"os/exec\"\n\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"ghost.exe\", exe, 0777)\ncommand := exec.Command(\"./ghost.exe\")\ncommand.Run()\n}"
+			text := ""
+			if outputfile == "" {
+				text = "package main\nimport (\"os/exec\"\n\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"ghost.exe\", exe, 0777)\ncommand := exec.Command(\"./revived\")\ncommand.Run()\n}"
+			} else {
+				text = "package main\nimport (\"os/exec\"\n\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"ghost.exe\", exe, 0777)\ncommand := exec.Command(\"./" + outputfile + "\")\ncommand.Run()\n}"
+			}
 			if outputfile == "" {
 				err = ioutil.WriteFile("invisible.go", []byte(text), 0777)
 				command := exec.Command("go", "mod", "init", "main")
