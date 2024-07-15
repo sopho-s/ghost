@@ -3,3 +3,4 @@ go.mod
 ghost
 .vscode
 *.exe
+test.go
