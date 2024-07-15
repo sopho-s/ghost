@@ -19,6 +19,7 @@ func main() {
 	reverse := false
 	inputfile := ""
 	outputfile := ""
+	exeoutputfile := ""
 	crypttype := ""
 	foil := false
 	for index, val := range args {
@@ -46,6 +47,13 @@ func main() {
 			}
 			outputfile = args[index+1]
 			break
+		case "-exeout":
+			if len(args)-1 == index {
+				fmt.Println("No exe output file specified with -o")
+				return
+			}
+			exeoutputfile = args[index+1]
+			break
 		case "--help":
 			fmt.Println("\n\n              ('-. .-.                .-')     .-') _    ")
 			fmt.Println("             ( OO )  /               ( OO ).  (  OO) )   ")
@@ -62,8 +70,9 @@ func main() {
 			fmt.Println("\t-f : foil, wraps the ghost file so that when executed the original file will be restored, no need to use ghost again\n")
 			fmt.Println("\t-ct <type> : choose the method that the file will be turned to a ghost\n")
 			fmt.Println("IO:\n")
-			fmt.Println("\t-out : output file\n")
-			fmt.Println("\t-in : input file\n")
+			fmt.Println("\t-out <filename> : output file\n")
+			fmt.Println("\t-exeout <filename> : output exe file after unfoiling\n")
+			fmt.Println("\t-in <filename> : input file\n")
 			return
 		}
 	}
@@ -101,10 +110,10 @@ func main() {
 			arr = arr[:len(arr)-1]
 			arr = strings.Replace(arr, " ", ",", -1)
 			text := ""
-			if outputfile == "" {
-				text = "package main\nimport (\"os/exec\"\n\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"ghost.exe\", exe, 0777)\ncommand := exec.Command(\"./revived\")\ncommand.Run()\n}"
+			if exeoutputfile == "" {
+				text = "package main\nimport (\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"revived\", exe, 0777)}"
 			} else {
-				text = "package main\nimport (\"os/exec\"\n\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"ghost.exe\", exe, 0777)\ncommand := exec.Command(\"./" + outputfile + "\")\ncommand.Run()\n}"
+				text = "package main\nimport (\"io/ioutil\")\nfunc main() {\nexe := []byte{" + arr + "} \nfor index, currbyte := range exe {\nexe[index] = byte((int(currbyte) + (256 - index)) % 256)\n}\n_ = ioutil.WriteFile(\"" + exeoutputfile + "\", exe, 0777)}"
 			}
 			if outputfile == "" {
 				err = ioutil.WriteFile("invisible.go", []byte(text), 0777)
