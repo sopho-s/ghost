@@ -18,3 +18,4 @@ Ghost is a software made to hide files that would normally be flagged as suspici
 
 - Directly load exes into memory
 - Exe wrapper so that ghost is not needed on the other system, exe can simply be run and will be automatically revived
+- Exe splice and scramble
